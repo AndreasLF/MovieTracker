@@ -2,8 +2,10 @@
 
 
 $apikey = "b044049a";
+$movieTitle = "Pacific Rim"
 
-$movieUrl = "https://www.omdbapi.com/?apikey=".$apiKey."&t=pacific%20rim";
+
+$movieUrl = "https://www.omdbapi.com/?apikey=".$apiKey."&t=".$movieTitle;
 
 
 $json = file_get_contents($movieUrl);
