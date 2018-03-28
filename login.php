@@ -22,12 +22,12 @@
         //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
         $result = $stmt->execute();
         
-        $stmt->bind_result($pass);
+        $stmt->bind_result($passwordHash);
        
         $stmt->fetch();      
     
                     
-        if($pass == $password){  
+        if(password_verify($password, $passwordHash)){  
             echo "valid login";
         }
         else{

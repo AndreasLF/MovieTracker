@@ -12,14 +12,18 @@
         
         /*This trims the username and password. Trim removes any spaces from the end or the beginning of a string*/
         $username = trim($_POST['username']); 
-        $password = trim($_POST['password']);
+        $password = trim($_POST['password']);        
+        
+        //Creates password hash
+        $passwordHash = password_hash($password, PASSWORD_BCRYPT);
+
         
         
         //Creates a prepared statement for the database
         $stmt = mysqli_prepare($connection,"INSERT INTO login(Username,Password) VALUES (?,?)");
             
         //Binds parameters to the prepared statement. Every parameter is of type String
-        $stmt->bind_param("ss",$username,$password); 
+        $stmt->bind_param("ss",$username,$passwordHash); 
 
         //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
         $result = $stmt->execute(); 
