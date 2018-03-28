@@ -28,12 +28,20 @@
             </div>
             <br>
 
+            <div class="row">
             <div class="input-field col s6">
-                <input id="password" type="password" name="password" class="validate" required>
+                <input id="passwordInput" type="password" name="password" class="validate" required>
                 <label>Password</label>
             </div>
+            
+            <div class="input-field col s6">
+                <input id="verifyPasswordInput" type="password" name="password" class="validate" required>
+                <label>Re-enter password</label>
+            </div>
+                </div>
 
-            <button type="submit" class="waves-effect waves-light btn pink accent-2">Login</button>
+            <div id="passMatch"></div>
+            <button id="registerButton" type="submit" class="waves-effect waves-light btn pink accent-2">Register</button>
         </form>
 
 
