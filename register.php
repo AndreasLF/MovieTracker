@@ -1,4 +1,4 @@
-    <?php
+<?php
         
     //Starts the session
     session_start(); 
@@ -24,9 +24,17 @@
             
         //Binds parameters to the prepared statement. Every parameter is of type String
         $stmt->bind_param("ss",$username,$passwordHash); 
+        
 
         //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-        $result = $stmt->execute(); 
+        $result = $stmtNewUser->execute(); 
+        
+        
+        //A new database table is created
+        $query = "CREATE TABLE ".$username." (imdbId VARCHAR(10) PRIMARY KEY, json JSON NOT NULL)"; 
+        
+        //The query is performed
+        mysqli_query($connection, $query) or exit(mysqli_error($connection)); 
         
         //If $result is true (mysqli_query was unsuccesful)
         if ($result){ 
@@ -35,7 +43,7 @@
         }
         else{ 
             //An error message is created and stored in the session variable
-            exit("ERROR executing: $query"."<br>". mysqli_error($result)); 
+            exit("ERROR executing: $query"."<br>". mysqli_error($connection)); 
         }
         
     }
@@ -46,9 +54,11 @@
 
 
 
-<html>
+    <html>
+
     <body>
-    
-    
+
+
     </body>
-</html>
+
+    </html>
