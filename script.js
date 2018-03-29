@@ -25,21 +25,17 @@ $(document).ready(function () {
         //Only perform an ajax call if the search string is longer than 0
         if (searchString.length > 0) {
 
-            var url = 'getData.php?title=' + searchString;
-
+            //var url = 'getData.php?title=' + searchString;
+            var url = "getData.php";
 
 
             //Performs an ajax request
-            $.getJSON(url, function (data) {
+            $.getJSON(url,{title: searchString}, function (data) {
 
 
 
                 if (data.Response == "True") {
                     var movieArray = data.Search;
-
-                    $("#messageDiv").html(movieArray.length);
-
-                    //console.log(movieArray.length);
 
 
                     $(".moviecard").each(function (index, element) {
