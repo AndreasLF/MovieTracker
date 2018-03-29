@@ -6,11 +6,16 @@ $(document).ready(function () {
             if(data.loggedin){
                 $('#loginButton').hide();
                 $('#logoutButton').show();
+                $('#mylistButton').show();
+                Materialize.toast("Welcome "+data.username+"!",1000);
 
             }
             else{
                 $('#loginButton').show();
                 $('#logoutButton').hide();
+                $('#mylistButton').hide();
+                Materialize.toast("You are not logged in",1000);
+
             }
     });
     
