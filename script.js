@@ -1,7 +1,20 @@
 $(document).ready(function () {
     
+    
+    
+    $.getJSON("checkLogin.php", function (data) {
+            if(data.loggedin){
+                console.log("You are logged in");
+            }
+            else{
+                console.log("You are not logged in")
+            }
+    });
+    
+    
     //Initiates modal
     $('#modalLogin').modal();
+    
     
     $('#openSearch').click(function () {
 
