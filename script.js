@@ -21,8 +21,13 @@ $(document).ready(function () {
         var imdbId = $(this).attr("data-imdb-id");
         
         $.getJSON("addMovie.php",{imdbId: imdbId}, function (data) {
-            console.log(data.succes);
-        });
+            if(data.succes){
+                 Materialize.toast("Movie added succesfully!",1000);
+            }
+            else{
+                 Materialize.toast("Something went wrong",1000);
+            }
+    });
                   
 
         
