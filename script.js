@@ -15,6 +15,10 @@ $(document).ready(function () {
     });
 
 
+    $('.moviebutton').click(function(){
+        console.log($(this).attr("data-imdb-id"));  
+    })
+    
     $('#search').keyup(function () {
 
         hideAllMovieCards();
@@ -46,8 +50,9 @@ $(document).ready(function () {
                         }
 
                         $(this).find(".movietitle").html(movieArray[index].Title);
-                        $(this).find(".movieposter").attr("src", movieArray[index].Poster)
-
+                        $(this).find(".movieposter").attr("src", movieArray[index].Poster);
+                        $(this).find(".moviebutton").attr("data-imdb-id", movieArray[index].imdbID);
+                        
                         $(this).show();
 
 
