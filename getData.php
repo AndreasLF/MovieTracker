@@ -2,16 +2,15 @@
 
 
 $apikey = "b044049a";
-$movieTitle = "Pacific Rim"
+$title = $_GET['title'];
+$type = "movie";
 
 
-$movieUrl = "https://www.omdbapi.com/?apikey=".$apiKey."&t=".$movieTitle;
+$movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&s=".$title."&type=".$type;
 
 
 $json = file_get_contents($movieUrl);
 $movieObj = json_decode($json);
 
-
-var_dump($movieObj);
-
+echo $json;
 ?>
