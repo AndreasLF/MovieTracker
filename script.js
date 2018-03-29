@@ -17,7 +17,17 @@ $(document).ready(function () {
 
     $('.moviebutton').click(function(){
         console.log($(this).attr("data-imdb-id"));  
-    })
+        
+        var imdbId = $(this).attr("data-imdb-id");
+        
+        $.getJSON("addMovie.php",{imdbId: imdbId}, function (data) {
+            console.log(data.succes);
+        });
+                  
+
+        
+        
+    });
     
     $('#search').keyup(function () {
 

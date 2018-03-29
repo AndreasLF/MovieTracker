@@ -27,7 +27,7 @@
         
 
         //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-        $result = $stmtNewUser->execute(); 
+        $result = $stmt->execute(); 
         
         
         //A new database table is created

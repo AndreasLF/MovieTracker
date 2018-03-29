@@ -1,4 +1,4 @@
-    <?php
+<?php
         
     //Starts the session
     session_start(); 
@@ -28,7 +28,14 @@
     
                     
         if(password_verify($password, $passwordHash)){  
-            echo "valid login";
+            /*Information about the session is stored*/
+            $_SESSION['valid'] = true; 
+            $_SESSION['timeout'] = time();
+            $_SESSION['username'] = $username; 
+            
+            //The browser is redirected to index.html
+            header('Location: index.html'); 
+            
         }
         else{
             
@@ -43,9 +50,11 @@
 
 
 
-<html>
+    <html>
+
     <body>
-    
-    
+
+
     </body>
-</html>
+
+    </html>
