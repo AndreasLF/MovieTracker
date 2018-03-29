@@ -6,6 +6,7 @@ $title = $_GET['title'];
 $type = "movie";
 
 
+
 $movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&s=".$title."&type=".$type;
 
 
