@@ -4,10 +4,13 @@ $(document).ready(function () {
     
     $.getJSON("checkLogin.php", function (data) {
             if(data.loggedin){
-                console.log("You are logged in");
+                $('#loginButton').hide();
+                $('#logoutButton').show();
+
             }
             else{
-                console.log("You are not logged in")
+                $('#loginButton').show();
+                $('#logoutButton').hide();
             }
     });
     
