@@ -5,6 +5,7 @@ $(document).ready(function () {
     $.getJSON("checkLogin.php", function (data) {
             if(data.loggedin){
                 $('#loginButton').hide();
+                $('#registerButton').hide();
                 $('#logoutButton').show();
                 $('#mylistButton').show();
                 Materialize.toast("Welcome "+data.username+"!",1000);
@@ -12,6 +13,7 @@ $(document).ready(function () {
             }
             else{
                 $('#loginButton').show();
+                $('#registerButton').show();
                 $('#logoutButton').hide();
                 $('#mylistButton').hide();
                 Materialize.toast("You are not logged in",1000);
@@ -20,8 +22,8 @@ $(document).ready(function () {
     });
     
     
-    //Initiates modal
-    $('#modalLogin').modal();
+    //Initiates modals
+    $('.modal').modal();
     
     
     $('#openSearch').click(function () {

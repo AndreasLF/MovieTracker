@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="materialize/css/materialize.css">
     <script src='materialize/js/materialize.js'></script>
     <script src='script.js'></script>
+    <script src='registerScript.js'></script>
+
 
 
 </head>
@@ -22,8 +24,8 @@
             <a href="#" class="brand-logo"><i class="material-icons right">movie</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li id="openSearch"><a href="#">Search</a></li>
-                <li><a href="badges.html">Movies</a></li>
-                <li id="mylistButton" hidden><a href="collapsible.html">My List</a></li>
+                <li id="mylistButton" hidden><a href="collapsible.html">My Movies</a></li>
+                <li id="registerButton"><a class="waves-effect waves-light modal-trigger" href="#modalRegister">Register</a></li>
                 <li id="loginButton"><a class="waves-effect waves-light modal-trigger" href="#modalLogin">Login</a></li>
                 <li id="logoutButton" hidden><a class="waves-effect waves-light modal-trigger" href="logout.php">Logout</a></li>
             </ul>
@@ -46,7 +48,7 @@
     <br>
 
 
-    <!-- Modal -->
+    <!-- Modal Login-->
     <div id="modalLogin" class="modal">
 
 
@@ -73,6 +75,56 @@
 
     </div>
 
+
+
+
+
+
+
+
+    <!-- Modal Register-->
+    <div id="modalRegister" class="modal">
+
+
+
+        <form method="post" action="register.php">
+            <div class="modal-content">
+                <h4>Register</h4>
+                <br>
+                <div class="input-field col s6">
+                    <input id="username" type="text" name="username" class="validate" required>
+                    <label>Username</label>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input id="passwordInput" type="password" name="password" class="validate" required>
+                        <label>Password</label>
+                    </div>
+
+                    <div class="input-field col s6">
+                        <input id="verifyPasswordInput" type="password" class="validate" required>
+                        <label>Re-enter password</label>
+                    </div>
+                </div>
+
+                <div id="passMatchMessage"></div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Cancel</a>
+                <button id="registerButton" type="submit" class="waves-effect waves-light btn pink accent-2">Register</button> </div>
+        </form>
+
+
+
+
+    </div>
+
+    <!-- Container-->
     <div class="container">
 
 
