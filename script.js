@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    
+    //Initiates modal
+    $('#modalLogin').modal();
+    
     $('#openSearch').click(function () {
 
 
