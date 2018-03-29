@@ -1,29 +1,23 @@
-$(document).ready(function(){
-    
-    
-    
-    $('#verifyPasswordInput').keyup(function(){
-        if($(this).val()==$('#passwordInput').val()){
-            $('#registerButton').attr("disabled", false); 
-            $('#passMatchMessage').html("");
-        }
-        else{
-            $('#registerButton').attr("disabled", true); 
-            $('#passMatchMessage').html("Passwords do not match!");
-        }
+$(document).ready(function() {
+    $('#openSearch').click(function() {
+          
+        $('#searchBox').toggle();
+        
     });
     
-    $('#passwordInput').keyup(function(){
-        if($(this).val()==$('#verifyPasswordInput').val()){
-            $('#registerButton').attr("disabled", false); 
-            $('#passMatchMessage').html("");
-        }
-        else{
-            $('#registerButton').attr("disabled", true); 
-            $('#passMatchMessage').html("Passwords do not match!");
-        }
+    $('#closeSearch').click(function() {
+            
+        $('#searchBox').toggle();
+        
     });
-    
+
+
+    $('#search').keyup(function() {
+            
+        $("#searchResultDiv").html($(this).val());
+        
+    });
+
+
+
 });
-                  
-           

@@ -17,13 +17,11 @@
 </head>
 
 <body>
-    
-    
   <nav>
-    <div class="nav-wrapper">
+    <div class="nav-wrapper blue">
       <a href="#" class="brand-logo"><i clas2s="material-icons">movie</i></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Search</a></li>
+        <li id="openSearch"><a href="#">Search</a></li>
         <li><a href="badges.html">Movies</a></li>
         <li><a href="collapsible.html">My List</a></li>
         <li><a href="login.html">Login</a></li>
@@ -31,18 +29,22 @@
     </div>
   </nav>
         
-    <nav>
-        <div class="nav-wrapper">
+    <nav id="searchBox" hidden>
+        
+        <div class="nav-wrapper green">
             <form>
                 <div class="input-field">
-                    <input id="search" type="search" required>
+                    <input id="search" type="search" autocomplete="off" required>
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                    <i class="material-icons" id="closeSearch" >close</i>
                 </div>
             </form>
         </div>
     </nav>
 
+    
+    <div id="searchResultDiv"></div>
+    <br>
 
     <div class="container">
 
