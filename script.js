@@ -35,6 +35,7 @@ $(document).ready(function () {
 
 
                 if (data.Response == "True") {
+                    $("#messageDiv").html("");
                     var movieArray = data.Search;
 
 
@@ -43,8 +44,6 @@ $(document).ready(function () {
                         if (index == movieArray.length) {
                             return false;
                         }
-
-                        console.log(index);
 
                         $(this).find(".movietitle").html(movieArray[index].Title);
                         $(this).find(".movieposter").attr("src", movieArray[index].Poster)
@@ -56,7 +55,15 @@ $(document).ready(function () {
                     });
                 }
                 else{
-                   $("#messageDiv").html(data.Error);
+                    if(data.Error == "Too many results."){
+                        Materialize.toast("Try to be more specific",500);
+                        //$("#messageDiv").html(data.Error+"<br>Try to be more specific");
+                    }
+                    else {
+                        Materialize.toast(data.Error,500);
+                      //S $("#messageDiv").html(data.Error);
+                    }
+                    
 
                 }
 
