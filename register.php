@@ -6,6 +6,8 @@
     //Connects to the database by including the code from connection.php
     require 'connection.php'; 
 
+    $errorMsg = "";
+
 
     /*if 'username' and 'password' received from the HTML form is set, the following code will run*/
     if(isset($_POST['username']) and isset($_POST['password'])){
@@ -30,25 +32,36 @@
         $result = $stmt->execute(); 
         
         
-        //A new database table is created
+         //A query for a new database table is created
         $query = "CREATE TABLE ".$username." (imdbId VARCHAR(10) PRIMARY KEY, json JSON NOT NULL)"; 
-        
-        //The query is performed
-        mysqli_query($connection, $query) or exit(mysqli_error($connection)); 
+
         
         //If $result is true (mysqli_query was unsuccesful)
         if ($result){ 
-            //This redirects the browser to login.html
-            header('Location: login.html'); 
+            
+           
+            //The query is performed
+            $result = mysqli_query($connection, $query); 
+
+            if($result){
+               //This redirects the browser to login.html
+                header('Location: login.html');  
+            }
+            else{
+                //An error message is created and stored in the session variable
+                $errorMsg = mysqli_error($connection);
+            }
+            
+            
         }
         else{ 
             //An error message is created and stored in the session variable
-            exit("ERROR executing: $query"."<br>". mysqli_error($connection)); 
+            $errorMsg = mysqli_error($connection);
         }
         
     }
     else{
-        exit("ERROR");
+        $errorMsg = "You cannot register a user without providing a username and password";
     }
     ?>
 
@@ -56,8 +69,25 @@
 
     <html>
 
-    <body>
+    <head>
+        <title>MovieTracker</title>
 
+        <meta charset="UTF-8" />
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src='jquery/jquery.min.js'></script>
+        <link rel="stylesheet" href="materialize/css/materialize.css">
+        <script src='materialize/js/materialize.js'></script>
+    </head>
+        
+    <body>
+        <div class="container">
+            <h5 class="center">Error!</h5>
+            <p class="center">
+                <?php echo $errorMsg ?>
+            </p>
+            <div class="center"><a class="waves-effect waves-light btn" href="index.html"><i class="material-icons left">restore</i>return to homepage</a></div>
+        </div>
 
     </body>
 
