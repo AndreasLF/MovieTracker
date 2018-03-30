@@ -41,7 +41,6 @@ $(document).ready(function () {
 
 
     $('.moviebutton').click(function(){
-        console.log($(this).attr("data-imdb-id"));  
         
         var imdbId = $(this).attr("data-imdb-id");
         
@@ -49,12 +48,19 @@ $(document).ready(function () {
         
         $.getJSON("addMovie.php",{imdbId: imdbId}, function (data) {
             if(data.succes){
-                button.find("i").html("favorite");
-                Materialize.toast("Movie added succesfully!",1000);
+                
+                if(data.action == "added"){
+                    button.find("i").html("favorite");
+                }
+                else{
+                    button.find("i").html("favorite_border");
+                }
+                
+                
+                Materialize.toast(data.message,1000);
             }
             else{
-                button.find("i").html("favorite_border");
-                Materialize.toast("Something went wrong",1000);
+                Materialize.toast(data.message,1000);
             }
     });
                   
