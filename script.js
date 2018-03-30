@@ -95,6 +95,10 @@ $(document).ready(function () {
                         $(this).find(".movieposter").attr("src", movieArray[index].Poster);
                         $(this).find(".moviebutton").attr("data-imdb-id", movieArray[index].imdbID);
                         
+                        if(movieArray[index].isInList){
+                            $(this).find("i").html("favorite");
+                        }
+                        
                         $(this).show();
 
 

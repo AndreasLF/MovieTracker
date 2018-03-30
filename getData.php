@@ -8,7 +8,7 @@ $type = "movie";
 
 //replaces spaces with +
 //$title = preg_replace("/\s/","+",trim($_GET['title']));
-$title = "Tomb+Raider";
+$title = $_GET['title'];
 
 $movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&s=".$title."&type=".$type;
 
