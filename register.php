@@ -45,7 +45,7 @@
 
             if($result){
                //This redirects the browser to login.html
-                header('Location: login.html');  
+                header('Location: index.html');  
             }
             else{
                 //An error message is created and stored in the session variable
