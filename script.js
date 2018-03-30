@@ -36,9 +36,7 @@ $(document).ready(function () {
     });
 
     $('#closeSearch').click(function () {
-
         $('#searchBox').toggle();
-
     });
 
 
@@ -47,12 +45,16 @@ $(document).ready(function () {
         
         var imdbId = $(this).attr("data-imdb-id");
         
+        var button = $(this);
+        
         $.getJSON("addMovie.php",{imdbId: imdbId}, function (data) {
             if(data.succes){
-                 Materialize.toast("Movie added succesfully!",1000);
+                button.find("i").html("favorite");
+                Materialize.toast("Movie added succesfully!",1000);
             }
             else{
-                 Materialize.toast("Something went wrong",1000);
+                button.find("i").html("favorite_border");
+                Materialize.toast("Something went wrong",1000);
             }
     });
                   
