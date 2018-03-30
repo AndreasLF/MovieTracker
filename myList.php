@@ -41,14 +41,13 @@ else {
                         $('#actors').html(\"<b>Actors: </b>". $movie->Actors ."\");
                         $('#language').html(\"<b>Language: </b>". $movie->Language ."\");
                         $('#country').html(\"<b>Country: </b>". $movie->Country ."\");
-                        $('#imdbrating').html(\"Rating: ". $movie->imdbRating ." <br>Votes: ". $movie->imdbVotes."\");
+                        $('#imdbrating').html(\"Rating: ". $movie->imdbRating ." / 10<br>Votes: ". $movie->imdbVotes."\");
                         $('#imdblink').attr(\"href\",\"https://www.imdb.com/title/". $movie->imdbID ."/\");
                         $('#poster').attr(\"src\",\"". $movie->Poster ."\");
                         setActive(\"".$movie->imdbID."\");
                     }); ";
                     
                     echo $jsCommand;
-  
                 }
     ?>
  
@@ -74,11 +73,25 @@ else {
             <div class="nav-wrapper blue">
                 <a href="index.html" class="brand-logo"><i class="material-icons right">arrow_back</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li id="logoutButton"><a class="waves-effect waves-light modal-trigger" href="logout.php">Logout</a></li>
+                    <li id="statisticsButton"><a class="waves-effect waves-light modal-trigger" href="#modalStatistics"><i class="material-icons">pie_chart</i></a></li>
+                    <li id="logoutButton"><a class="waves-effect waves-light" href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </nav>
 
+        
+        <!-- Modal Login-->
+        <div id="modalStatistics" class="modal">
+        
+            <div class="modal-content">
+                <h4>Statistics</h4>
+                <p>HOLA</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Dismiss</a>
+            </div>
+        </form>
+    </div>
 
         <div class="row">
             <div class="col s3 z-depth-1">
@@ -180,15 +193,6 @@ else {
 }
 
 
-
-?>
-
-
-
-
-
-
-    <?php
 function getMoviesFromDatabase($username){
     
     //Connects to the database by including the code from connection.php
