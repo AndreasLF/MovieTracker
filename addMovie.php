@@ -11,8 +11,7 @@ if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['t
             $username = $_SESSION['username'];
             
             //$imdbId = $_GET['imdbId'];
-            //$imdbId = $_GET['imdbId'];
-            $imdbId = "tt1365519";
+            $imdbId = $_GET['imdbId'];
             $apikey = "b044049a";
     
             if(isMovieInDatabase($imdbId)){
