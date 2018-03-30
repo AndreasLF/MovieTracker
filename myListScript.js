@@ -1,13 +1,13 @@
 $(document).ready(function () {
     
     
-    
+    /*
     $(".collection-item").click(function{
                                                 window.location.replace("index.html");
 
                                 
                                 });
-    
+    */
     /*
     $.getJSON("checkLogin.php", function (data) {
             if(data.loggedin){
