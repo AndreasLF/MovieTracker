@@ -1,25 +1,24 @@
 $(document).ready(function(){
     
     
-    
     $('#verifyPasswordInput').keyup(function(){
         if($(this).val()==$('#passwordInput').val()){
-            $('#registerButton').attr("disabled", false); 
+            $('#registerSubmitButton').toggleClass("disabled"); 
             $('#passMatchMessage').html("");
         }
         else{
-            $('#registerButton').attr("disabled", true); 
+            $('#registerSubmitButton').toggleClass("disabled"); 
             $('#passMatchMessage').html("Passwords do not match!");
         }
     });
     
     $('#passwordInput').keyup(function(){
         if($(this).val()==$('#verifyPasswordInput').val()){
-            $('#registerButton').attr("disabled", false); 
+            $('#registerSubmitButton').toggleClass("disabled"); 
             $('#passMatchMessage').html("");
         }
         else{
-            $('#registerButton').attr("disabled", true); 
+            $('#registerSubmitButton').toggleClass("disabled"); 
             $('#passMatchMessage').html("Passwords do not match!");
         }
     });
