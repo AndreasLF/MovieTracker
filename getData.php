@@ -1,16 +1,8 @@
 <?php
 
+session_start();
 
 
-if(isMovieInDatabase("tt1469304")){
-    echo "movie is in DB";
-}
-else {
-    echo "movie is not in DB";
-}
-
-
-/*
 $apikey = "b044049a";
 $type = "movie";
 
@@ -39,7 +31,7 @@ if($movieObj->Response == "True"){
 
         
         //Converts the object to an array, adds a parameter and converts it back to an object
-        $movie = (object) array_merge((array)$movie,array('isInList'=>isMovieInDatabase($imdbId)));
+        $movie = (object) array_merge((array)$movie,array('isInList'=>isMovieInDatabase($movie->imdbID)));
         //var_dump($movieElement);  
         $searchResults[$key] = $movie;
     }
@@ -50,7 +42,7 @@ if($movieObj->Response == "True"){
 
 
 echo $json;
-*/
+
 
 
 /*
@@ -62,7 +54,6 @@ echo $json;
 */
 function isMovieInDatabase($imdbId){
     
-    session_start();
 
     //Connects to the database by including the code from connection.php
     require 'connection.php';
