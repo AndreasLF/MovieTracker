@@ -6,7 +6,7 @@ session_start();
 require 'connection.php';
 
 
- if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200)){
+if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200)){
 
             $username = $_SESSION['username'];
             
