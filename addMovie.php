@@ -2,6 +2,8 @@
 
 session_start();
 
+require 'MySqlConnection.class.php';
+
 //Connects to the database by including the code from connection.php
 require 'connection.php';
 
@@ -10,39 +12,35 @@ if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['t
 
             $username = $_SESSION['username'];
             
-            //$imdbId = $_GET['imdbId'];
+            //Creating new MySqlConnection
+            $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker",$username);
+    
             $imdbId = $_GET['imdbId'];
             $apikey = "b044049a";
     
-            if(isMovieInDatabase($imdbId)){
-                //Creates a prepared statement for the database
-                $stmt = mysqli_prepare($connection,"DELETE FROM ".$username." WHERE imdbId = ?");
-
-                //Binds parameters to the prepared statement. Every parameter is of type String
-                $stmt->bind_param("s",$imdbId); 
-
-                //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-                $result = $stmt->execute(); 
+            if($mySqlConnection->inDatabase($imdbId)){
+                $mySqlConnection->deleteFromDatabase($imdbId); 
                  
-                //If $result is true (mysqli_query was unsuccesful)
-                if ($result){ 
+                //Checks for error
+                if (!($mySqlConnection->isError)){ 
                     $message = "Removed movie from My list";
                     
-                    $resultJSON = array(
+                    $resultJson = array(
                         "succes"=>true,
                         "action"=>"removed",
                         "message"=>$message,
                     );
-                    echo json_encode($resultJSON);
+                    echo json_encode($resultJson);
                 }
                 else{ 
+                    //If an error ocurred an error message will be included in the json to return
                     $errorMsg = "Something went wrong!";
                     
-                    $resultJSON = array(
+                    $resultJson = array(
                         "succes"=>false,
                         "message"=>$errorMsg
                     );
-                    echo json_encode($resultJSON);
+                    echo json_encode($resultJson);
                 } 
                 
                 
@@ -50,17 +48,12 @@ if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['t
             else{
                 $json = file_get_contents('https://www.omdbapi.com/?apikey='.$apikey.'&i='.$imdbId);
 
-                 //Creates a prepared statement for the database
-                $stmt = mysqli_prepare($connection,"INSERT INTO ".$username." (imdbId,json) VALUES (?,?)");
-
-                //Binds parameters to the prepared statement. Every parameter is of type String
-                $stmt->bind_param("ss",$imdbId,$json); 
-
-                //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-                $result = $stmt->execute(); 
-
-               //If $result is true (mysqli_query was unsuccesful)
-                if ($result){ 
+                
+                $mySqlConnection->insertToDatabase2Str("imdbId","json",$imdbId,$json);
+                
+                
+                
+                if (!($mySqlConnection->isError)){ 
                     $message = "Added movie to My list";
                     
                     $resultJSON = array(
@@ -71,6 +64,8 @@ if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['t
                     echo json_encode($resultJSON);
                 }
                 else{ 
+                    
+                    //If an error ocurred an error message will be included in the json to return
                     $errorMsg = "Something went wrong!";
                     
                     $resultJSON = array(
@@ -96,50 +91,6 @@ if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['t
 
 
 
-
-/*
-* This checks if a movie is in the database
-* 
-*
-* param String $imdbId is the imdb Id of the movie to check with the database
-* return boolean. If the movie is in the database it returns true. If not false is returned. If the user is not logged in false will be returned
-*/
-function isMovieInDatabase($imdbId){
-    
-
-    //Connects to the database by including the code from connection.php
-    require 'connection.php';
-
-
-    if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200)){
-
-                $username = $_SESSION['username'];
-
-                $stmt = mysqli_prepare($connection,"SELECT * FROM ".$username." WHERE imdbId = ?");
-
-                //Binds parameters to the prepared statement. Every parameter is of type String
-                $stmt->bind_param("s",$imdbId); 
-
-                //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-                $stmt->execute(); 
-            
-                //stores the result
-                $stmt->store_result();
-                
-                //If more than 0 rows are returned from the database true is returned
-                if($stmt->num_rows() > 0){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-        else {
-            //False is returned if the user is not logged in. The movie should not show up as being on yout list if you are not logged in.
-            return false;
-        }
-
-}
 
 
 

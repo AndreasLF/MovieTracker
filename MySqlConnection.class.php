@@ -8,7 +8,14 @@ $batch = array(
 1=>"12",
 2=>"tt1375666"
 );
-var_dump($mySqlConnection->getColumn('json'));
+
+if($mySqlConnection->isError){
+    echo "true";
+    echo $mySqlConnection->error;
+}
+else{
+    echo "false";
+}
 
 
 if(null===$mySqlConnection->inDatabase("tt2250912")){
@@ -131,8 +138,6 @@ class MySqlConnection{
             }  
     }
     
-    
-    
     /*
     * Checks for multiple items if they exist in database
     *
@@ -173,7 +178,7 @@ class MySqlConnection{
         
         if(!($result)){
             //Sets the error 
-            $this->error = "mysqli store_result failed: " . htmlspecialchars($stmt->error);
+            $this->error = "mysqli query failed: " . htmlspecialchars($this->mysqli->error);
             $this->isError = true;
             return;
         }
@@ -191,6 +196,90 @@ class MySqlConnection{
     }
     
     
+    /*
+    * This deletes a row in the database by providing the primary key
+    *
+    * param string|int is the primary key you want to check for in the database table
+    */
+    public function deleteFromDatabase($primaryKey){
+        
+        $stmt = $this->mysqli->prepare("DELETE FROM ".$this->table." WHERE imdbId = ?");
+        
+        //If the prepared statement fails an error message will be assigned and this method will be escaped
+        if(!($stmt)){
+                $this->error = "mysqli_prepare failed: " . htmlspecialchars($this->mysqli->error);
+                $this->isError = true;
+                
+                //Escapes this method
+                return;
+        }
+        
+        //Binds parameters to the prepared statement. Every parameter is of type String
+        $result = $stmt->bind_param("s",$primaryKey); 
+
+        if(!($result)){
+                $this->error = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+        
+        //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
+        $result = $stmt->execute(); 
+        
+        if(!($result)){
+                $this->error = "mysqli execute failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+      
+    }
+    
+    
+    /*
+    * This inserts a row into the database. Every cell is of type string and the table is expected to have two columns
+    *
+    * param string $columnName1 is the name of the first column in the table
+    * param string $columnName2 is the name of the second column in the table
+    * param string $data1 is the data to insert into the first column
+    * param string $data2 is the data to insert into the first column
+    */
+    public function insertToDatabase2Str($columnName1,$columnName2,$data1,$data2){
+        //Creates a prepared statement for the database
+        $prepStatement = "INSERT INTO ".$this->table." (".$columnName1.",".$columnName2.") VALUES (?,?)";
+        
+        //prepares the statement
+        $stmt = $this->mysqli->prepare($prepStatement);
+        if(!($stmt)){
+                $this->error = "mysqli_prepare failed: " . htmlspecialchars($this->mysqli->error);
+                $this->isError = true;
+                
+                return;
+        }
+        
+        
+                
+        //Binds parameters to the prepared statement. Every parameter is of type String
+        $result = $stmt->bind_param("ss",$data1,$data2); 
+
+        
+        if(!($result)){
+                $this->error = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+        
+        
+        //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
+        $result = $stmt->execute(); 
+
+        
+        if(!($result)){
+                $this->error = "mysqli execute failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+   
+    }
     
 }
 
