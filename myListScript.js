@@ -62,9 +62,6 @@ $(document).ready(function () {
                 htmlString = htmlString + "<div class='col s1'><i class='material-icons'>star_border</i></div>";           
            }
            
-           
-           
-           
             $('#imdbAvg').html(htmlString);
    
         }); 

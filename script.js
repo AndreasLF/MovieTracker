@@ -1,6 +1,29 @@
 $(document).ready(function () {
     
     
+    $('#verifyPasswordInput').keyup(function(){
+        if($(this).val()==$('#passwordInput').val()){
+            $('#registerSubmitButton').removeClass("disabled"); 
+            $('#passMatchMessage').html("");
+        }
+        else{
+            $('#registerSubmitButton').addClass("disabled"); 
+            $('#passMatchMessage').html("Passwords do not match!");
+        }
+    });
+    
+    $('#passwordInput').keyup(function(){
+        if($(this).val()==$('#verifyPasswordInput').val()){
+            $('#registerSubmitButton').removeClass("disabled"); 
+            $('#passMatchMessage').html("");
+        }
+        else{
+            $('#registerSubmitButton').addClass("disabled"); 
+            $('#passMatchMessage').html("Passwords do not match!");
+        }
+    });
+    
+    
     
     $.getJSON("checkLogin.php", function (data) {
             if(data.loggedin){
