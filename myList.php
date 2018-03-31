@@ -84,8 +84,47 @@ else {
         <div id="modalStatistics" class="modal">
         
             <div class="modal-content">
-                <h4>Statistics</h4>
-                <p>HOLA</p>
+                <h4><b>Statistics</b></h4>
+               
+                
+                <div class="row">
+                    <div class="col s12"><h5 class="valign-center">Total watch time:</h5></div> 
+                </div>
+                
+                   
+                <div id="totalWatchTime" class="row">
+                    <div class="col s3">600 min (10 h)</div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+                    <div class="col s1"><i class="material-icons">access_time</i></div> 
+
+                </div>
+            
+                <div class="row">
+                  
+                    <div class="col s12"><h5 class="valign-center">Average <a href="https://help.imdb.com/article/imdb/track-movies-tv/faq-for-imdb-ratings/G67Y87TFYYP6TWAV#">IMDB</a> rating:</h5></div>
+                    
+                </div>
+                <div id="imdbAvg" class="row">
+                    <div class="col s2">7.5 / 10</div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star</i></div>
+                    <div class="col s1"><i class="material-icons">star_half</i></div>
+                    <div class="col s1"><i class="material-icons">star_border</i></div>
+                    <div class="col s1"><i class="material-icons">star_border</i></div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <a href="#!" class="modal-action modal-close waves-effect waves-light btn-flat">Dismiss</a>
@@ -111,7 +150,7 @@ else {
                                 
                                 echo "<li id='".$movie->imdbID."' class='collection-item avatar ".$active."'>
                                     <img src='". $movie->Poster ."' alt='' class='circle'>
-                                    <span class='title'>". $movie->Title ."</span>
+                                    <span class='title truncate'>". $movie->Title ."</span>
                                     <p>". $movie->Year."<br>". $movie->Director ."
                                     </p>
                                     <a href='#!' class='secondary-content'><i class='material-icons'>launch</i></a>
