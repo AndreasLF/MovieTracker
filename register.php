@@ -53,8 +53,6 @@
          //A query for a new database table is created
         $query = "CREATE TABLE ".$username." (imdbId VARCHAR(10) PRIMARY KEY, json JSON NOT NULL)"; 
 
-
-
         //The query is performed
         $result = $mysqli->query($query); 
 

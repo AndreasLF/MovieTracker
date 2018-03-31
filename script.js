@@ -128,10 +128,13 @@ $(document).ready(function () {
                         //The imdb id is added to the buttons parameter
                         $(this).find(".moviebutton").attr("data-imdb-id", movieArray[index].imdbID);
                         
-                        
-                        if(data.isInList[movieArray[index].imdbID]){
-                            $(this).find("i").html("favorite");
+                        //if data.isInList is defined
+                        if(data.isInList !== undefined){
+                            if(data.isInList[movieArray[index].imdbID]){
+                                $(this).find("i").html("favorite");
+                            }
                         }
+                        
                         
                         $(this).show();
                     });

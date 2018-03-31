@@ -1,45 +1,5 @@
 <?php
 
-/*
-$mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker","andreas");
-
-$batch = array(
-0=>"tt2250912",
-1=>"12",
-2=>"tt1375666"
-);
-
-if($mySqlConnection->isError){
-    echo "true";
-    echo $mySqlConnection->error;
-}
-else{
-    echo "false";
-}
-
-
-if(null===$mySqlConnection->inDatabase("tt2250912")){
-    echo "null";
-}
-else if($mySqlConnection->inDatabase("tt2250912")){
-    echo "true";  
-}
-else{
-    echo "false";
-}
-
-echo "<br>";
-
-if($mySqlConnection->isError){
-    echo "true";
-}
-else{
-    echo "false";
-}
-*/
-
-
-
 
 class MySqlConnection{
     
@@ -281,6 +241,69 @@ class MySqlConnection{
    
     }
     
+    
+    /*
+    * This gets the password from the login table
+    *
+    * return string hashed password
+    */
+    public function getPassword(){
+            
+         //Creates a prepared statement for the database
+        $stmt = $this->mysqli->prepare("SELECT Password FROM `login` WHERE Username=?");
+            
+        if(!($stmt)){
+            $this->error = "mysqli_prepare failed: " . htmlspecialchars($this->mysqli->error);
+            $this->isError = true;
+                
+            return;
+        }
+        
+
+        //Binds parameters to the prepared statement. Every parameter is of type String
+        $result = $stmt->bind_param("s",$this->table); 
+        
+           if(!($result)){
+                $this->error = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+
+        //Executes the prepared statement. Returns a boolean - true upon succes and false upon failure.
+        $result = $stmt->execute();
+        
+         if(!($result)){
+                $this->error = "mysqli execute failed: " . htmlspecialchars($stmt->error);
+                $this->isError = true;
+                return;
+        }
+        
+        
+        //Binds the result to a variable
+        $result = $stmt->bind_result($passwordHash);
+        
+        //If bind_result was unsuccesful
+        if(!($result)){
+            $this->error = "mysqli bind_result failed: " . htmlspecialchars($stmt->error);
+            $this->isError = true;
+            return;
+        }
+       
+        
+        //fetches the result
+        $result = $stmt->fetch(); 
+        
+        //If fetch was unsuccesful
+        if(!($result)){
+            $this->error = "mysqli fetch failed: " . htmlspecialchars($stmt->error);
+            $this->isError = true;
+            return;
+        }
+    
+        return $passwordHash;
+        
+        
+    }
 }
 
 

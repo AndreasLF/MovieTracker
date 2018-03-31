@@ -3,8 +3,7 @@
     //Starts the session
     session_start(); 
 
-    //Connects to the database by including the code from connection.php
-    require 'connection.php'; 
+    require 'MySqlConnection.class.php';
 
     $errorMsg = "";
 
@@ -15,54 +14,9 @@
         $username = trim($_POST['username']); 
         $password = trim($_POST['password']);
         
-        //Creates a prepared statement for the database
-        $stmt = $mysqli->prepare("SELECT Password FROM `login` WHERE Username=?");
-            
-        
-        //If the prepared statement fails to be defined the script will exit with an error message
-        if(!($stmt)){
-            //Sets the error message
-            //htmlspecialchars converts the characters into html enitities
-            $errorMsg = "mysqli_prepare failed: " . htmlspecialchars($mysqli->error);
-        }
-        
-
-        //Binds parameters to the prepared statement. Every parameter is of type String
-        $result = $stmt->bind_param("s",$username); 
-        
-        if(!($result)){
-            //Exits with an error message
-            $errorMsg = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
-        }
-
-        //Executes the prepared statement. Returns a boolean - true upon succes and false upon failure.
-        $result = $stmt->execute();
-        
-        //If execute was unsuccesful
-        if(!($result)){
-            //Exits with an error message
-            $errorMsg = "mysqli execute failed: " . htmlspecialchars($stmt->error);
-        }
-        
-        
-        $result = $stmt->bind_result($passwordHash);
-        
-        //If bind_result was unsuccesful
-        if(!($result)){
-            //Exits with an error message
-            $errorMsg = "mysqli bind_result failed: " . htmlspecialchars($stmt->error);
-        }
+        $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker",$username);
        
-        
-        //fetches the result
-        $result = $stmt->fetch(); 
-        
-        //If fetch was unsuccesful
-        if(!($result)){
-            //Exits with an error message
-            $errorMsg = "mysqli fetch failed: " . htmlspecialchars($stmt->error);
-        }
-    
+        $passwordHash = $mySqlConnection->getPassword();
         
         //Checks the passwords
         if(password_verify($password, $passwordHash)){  
@@ -76,7 +30,6 @@
             
         }
         else{
-            
             $errorMsg = "Wrong username or password";
         }
         
