@@ -8,7 +8,7 @@ $batch = array(
 1=>"12",
 2=>"tt1375666"
 );
-var_dump($mySqlConnection->inDatabaseBatch($batch));
+var_dump($mySqlConnection->getColumn('json'));
 
 
 if(null===$mySqlConnection->inDatabase("tt2250912")){
@@ -29,8 +29,8 @@ if($mySqlConnection->isError){
 else{
     echo "false";
 }
-
 */
+
 
 
 
@@ -159,6 +159,36 @@ class MySqlConnection{
         return $inDatabaseArray;
     }
     
+    
+    /*
+    * Gets content of every cell from a specified column in the database
+    * 
+    * param string $columnName name of the column to retrieve
+    * return array listing every cell from the column
+    */
+    public function getColumnAsArray($columnName){
+        
+        $query = "SELECT * FROM ".$this->table;
+        $result = $this->mysqli->query($query);
+        
+        if(!($result)){
+            //Sets the error 
+            $this->error = "mysqli store_result failed: " . htmlspecialchars($stmt->error);
+            $this->isError = true;
+            return;
+        }
+        
+        //Creates an 
+        $columnList = array();
+
+        //Fetches every row in the column
+         while($row=$result->fetch_assoc()){
+             //pushes the content of the column to the column list
+             array_push($columnList,$row[$columnName]);
+         }
+
+        return $columnList;            
+    }
     
     
     

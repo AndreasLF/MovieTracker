@@ -2,13 +2,26 @@
 
 session_start();
 
+require 'MySqlConnection.class.php';
+
 if (!(isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200))){
     header('Location: index.html');
 }
 else {
     
-    $moviesList = getMoviesFromDatabase($_SESSION['username']);
- 
+    //Creating new MySqlConnection
+    $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker",$_SESSION['username']);
+    
+    //Gets the json column as an array
+    $movies = $mySqlConnection->getColumnAsArray('json');
+    
+    $moviesList = array();
+    
+    foreach($movies as $movie){
+        array_push($moviesList,json_decode($movie));
+    }
+    
+
     ?>
 
     <html>
@@ -230,26 +243,5 @@ else {
 
     <?php 
 }
-
-
-function getMoviesFromDatabase($username){
-    
-    //Connects to the database by including the code from connection.php
-    require 'connection.php';
-
-    //Prepares a mysql query
-    
-    $query = "SELECT * FROM ".$username;
-    $result = mysqli_query($connection,$query);
-
-    $moviesList = array();
-    
-     while($row=$result->fetch_assoc()){
-         array_push($moviesList,json_decode($row['json']));
-     }
-        
-    return $moviesList;            
-}
-
 
 ?>
