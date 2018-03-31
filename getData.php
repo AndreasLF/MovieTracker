@@ -5,14 +5,24 @@ session_start();
 
 $apikey = "b044049a";
 $type = "movie";
+$title = "";
 
-//replaces spaces with +
-$title = preg_replace("/\s/","+",trim($_GET['title']));
+//Checks if a search string has been specified
+if(isset($_GET['title'])){
+    //replaces spaces with +
+    $title = preg_replace("/\s/","+",trim($_GET['title']));
+}
+else{
+    $title ="star+wars";
+}
 
-$movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&s=".$title."&type=".$type;
+//The movie url is created
+$movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&type=".$type."&s=".$title;
 
-
+//Gets search results from the url. The api provides a json file
 $json = file_get_contents($movieUrl);
+
+//The json is decoded. This turns it into a php array
 $movieObj = json_decode($json);
 
 
@@ -58,29 +68,61 @@ function isMovieInDatabase($imdbId){
 
     $loggedIn = isLoggedIn();
     
-    if ($loggedIn->status){
+    if($loggedIn['valid']){
 
-                $username = $loggedIn->username;
+            //The username is saved
+            $username = $loggedIn['username'];
 
-                $stmt = mysqli_prepare($connection,"SELECT * FROM ".$username." WHERE imdbId = ?");
+            //Prepares a statement for the database
+            $stmt = $mysqli->prepare("SELECT * FROM ".$username." WHERE imdbId = ?");
 
-                //Binds parameters to the prepared statement. Every parameter is of type String
-                $stmt->bind_param("s",$imdbId); 
-
-                //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
-                $stmt->execute(); 
-            
-                //stores the result
-                $stmt->store_result();
-                
-                //If more than 0 rows are returned from the database true is returned
-                if($stmt->num_rows() > 0){
-                    return true;
-                }
-                else{
-                    return false;
-                }
+            //If the prepared statement fails to be defined the script will exit with an error message
+            if(!($stmt)){
+                //Exits with an error message
+                //htmlspecialchars converts the characters into html enitities
+                exit("mysqli_prepare failed: " . htmlspecialchars($mysqli->error));
             }
+
+
+            //If bind_param was unsuccesful the script will exit with an error message
+            $result = $stmt->bind_param("s",$imdbId); 
+
+            if(!($result)){
+                //Exits with an error message
+                exit("mysqli bind_param failed: " . htmlspecialchars($stmt->error));
+            }
+
+
+            $result = $stmt->execute();
+
+            //If execute was unsuccesful the script will exit with an error message
+            if(!($result)){
+                //Exits with an error message
+                exit("mysqli execute failed: " . htmlspecialchars($stmt->error));
+            }
+
+
+            //Stores the result. Returns true upon succes and false upon failure
+            $result = $stmt->store_result();
+
+            //If store_result was unsuccesful the script will exit with an error message
+            if(!($result)){
+                //Exits with an error message
+                exit("mysqli store_result failed: " . htmlspecialchars($stmt->error));
+            }
+
+            //Gets the number of rows from the database results
+            $numRows = $stmt->num_rows;       
+
+            //If more than 0 rows are returned from the database true is returned
+            if($rows > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        
+        }
         else {
             //False is returned if the user is not logged in. The movie should not show up as being on yout list if you are not logged in.
             return false;
@@ -120,14 +162,23 @@ function isLoggedIn(){
             //Error mesage to include in the returned array
             $errorMsg = "";
             
-            //if the session has timed out the errorMsg will contain a session expire message
-            if(time() - $_SESSION['timeout'] < 1200){
-                $errorMsg = "Your session has expired";
+            //Checks if the session timeout has been set. If it is not set, the user is not logged in
+            if(isset($_SESSION['timeout'])){
+                
+                //if the session has timed out the errorMsg will contain a session expire message
+                if((time() - $_SESSION['timeout'] < 1200)){
+                    $errorMsg = "Your session has expired";
+                }
+                else {
+                    //else there must be som other error
+                    $errorMsg = "Something went wrong!";
+                }
+                
             }
-            else {
-                //else the user probably has not logged in
+            else{
                 $errorMsg = "You are not logged in";
             }
+            
             
             //Saves the login status including an error msg
             $loginStatus = array(
