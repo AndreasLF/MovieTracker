@@ -43,7 +43,6 @@ if($movieObj->Response == "True"){
 echo $json;
 
 
-
 /*
 * This checks if a movie is in the database
 * 
@@ -57,10 +56,11 @@ function isMovieInDatabase($imdbId){
     //Connects to the database by including the code from connection.php
     require 'connection.php';
 
+    $loggedIn = isLoggedIn();
+    
+    if ($loggedIn->status){
 
-    if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200)){
-
-                $username = $_SESSION['username'];
+                $username = $loggedIn->username;
 
                 $stmt = mysqli_prepare($connection,"SELECT * FROM ".$username." WHERE imdbId = ?");
 
@@ -86,6 +86,58 @@ function isMovieInDatabase($imdbId){
             return false;
         }
 
+}
+
+
+
+/*
+* This function checks if the user is logged in
+*
+* return array returns an  array containing the username and a boolean
+*/
+
+function isLoggedIn(){
+     if (isset($_SESSION['username']) && $_SESSION['valid'] && (time() - $_SESSION['timeout'] < 1200)){
+
+                //The timeout is postponed because the user interacts with the system
+                $_SESSION['timeout'] = time();
+         
+                //Username is saved in a variable
+                $username = $_SESSION['username'];
+                
+                //Saves the login status in an array including the username
+                $loginStatus = array(
+                    "valid" => true,
+                    "username" => $username
+                );
+         
+                //login status is returned
+                return $loginStatus;
+
+            }
+        else {
+            
+            //Error mesage to include in the returned array
+            $errorMsg = "";
+            
+            //if the session has timed out the errorMsg will contain a session expire message
+            if(time() - $_SESSION['timeout'] < 1200){
+                $errorMsg = "Your session has expired";
+            }
+            else {
+                //else the user probably has not logged in
+                $errorMsg = "You are not logged in";
+            }
+            
+            //Saves the login status including an error msg
+            $loginStatus = array(
+                    "valid" => false,
+                    "sessionExpired" => $errorMsg
+                );
+            
+            //login status is returned
+            return $loginStatus;
+        }
 }
 
 
