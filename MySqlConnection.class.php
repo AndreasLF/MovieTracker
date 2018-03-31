@@ -14,7 +14,15 @@ class MySqlConnection{
     public $error;
     
     
-    
+    /*
+    * This constructs the MySqlConnection object
+    *
+    * param string $ip is the ip of the server  
+    * param string $username is the username which allows access to the database
+    * param string $password is the password which allows access to the database
+    * param string $database is the name of the database to modify
+    * param string $table is the table in the database to modify
+    */
     function __construct($ip,$username,$password,$database,$table){
         //No errors by default
         $this->isError = false;
@@ -32,12 +40,12 @@ class MySqlConnection{
     
     
     /*
-    * Checks if an item is in the database
+    * Checks if a movie is in the database
     *
     * param string|int is the primary key you want to check for in the database table
     * return boolean
     */
-    public function inDatabase($primaryKey){
+    public function inDatabase($imdbId){
   
             //Prepares a statement for the database
             $stmt = $this->mysqli->prepare("SELECT * FROM ".$this->table." WHERE imdbId = ?");
@@ -54,7 +62,7 @@ class MySqlConnection{
             }
 
 
-            $result = $stmt->bind_param("s",$primaryKey); 
+            $result = $stmt->bind_param("s",$imdbId); 
 
             if(!($result)){
                 //Exits with an error message
@@ -99,7 +107,7 @@ class MySqlConnection{
     }
     
     /*
-    * Checks for multiple items if they exist in database
+    * Checks for multiple movies if they exist in database
     *
     * param array $primaryKeys is an array of primary keys to check for
     * return array containing primary keys and corresponding boolean
@@ -157,11 +165,11 @@ class MySqlConnection{
     
     
     /*
-    * This deletes a row in the database by providing the primary key
+    * This deletes a movie from the database by providing the imdbId
     *
     * param string|int is the primary key you want to check for in the database table
     */
-    public function deleteFromDatabase($primaryKey){
+    public function deleteFromDatabase($imdbId){
         
         $stmt = $this->mysqli->prepare("DELETE FROM ".$this->table." WHERE imdbId = ?");
         
@@ -175,7 +183,7 @@ class MySqlConnection{
         }
         
         //Binds parameters to the prepared statement. Every parameter is of type String
-        $result = $stmt->bind_param("s",$primaryKey); 
+        $result = $stmt->bind_param("s",$imdbId); 
 
         if(!($result)){
                 $this->error = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
@@ -300,9 +308,7 @@ class MySqlConnection{
             return;
         }
     
-        return $passwordHash;
-        
-        
+        return $passwordHash;   
     }
 }
 

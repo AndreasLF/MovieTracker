@@ -92,13 +92,15 @@ $(document).ready(function () {
         
     });
     
-    $('#search').keyup(function () {
+    $('#searchform').submit(function () {
 
+        
         hideAllMovieCards();
 
 
-        var searchString = $(this).val();
-
+        var searchString = $('#search').val();
+        console.log(searchString);
+        
         //Only perform an ajax call if the search string is longer than 0
         if (searchString.length > 0) {
 
