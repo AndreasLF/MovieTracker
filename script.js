@@ -87,30 +87,30 @@ $(document).ready(function () {
             $.getJSON(url,{title: searchString}, function (data) {
 
 
-
+                
                 if (data.Response == "True") {
-                    $("#messageDiv").html("");
                     var movieArray = data.Search;
 
-
                     $(".moviecard").each(function (index, element) {
-
+                        
+                        //if the index of the loop is equal to the number of search result the loop will break by returning false
                         if (index == movieArray.length) {
                             return false;
                         }
 
+                        //The movie title is set
                         $(this).find(".movietitle").html(movieArray[index].Title);
+                        //The movie poster image link is set
                         $(this).find(".movieposter").attr("src", movieArray[index].Poster);
+                        //The imdb id is added to the buttons parameter
                         $(this).find(".moviebutton").attr("data-imdb-id", movieArray[index].imdbID);
                         
-                        if(movieArray[index].isInList){
+                        
+                        if(data.isInList[movieArray[index].imdbID]){
                             $(this).find("i").html("favorite");
                         }
                         
                         $(this).show();
-
-
-
                     });
                 }
                 else{

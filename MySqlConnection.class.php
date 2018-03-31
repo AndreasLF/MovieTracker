@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker","andreas");
 
 $batch = array(
@@ -30,7 +30,7 @@ else{
     echo "false";
 }
 
-
+*/
 
 
 
@@ -145,9 +145,13 @@ class MySqlConnection{
         
         foreach($primaryKeys as $key=>$primaryKey){
             
-            if($this->inDatabase($primaryKey)){
+            if($this->inDatabase($primaryKey)===null){
+                return;
+            }
+            else if($this->inDatabase($primaryKey)){
                 $inDatabaseArray[$primaryKey]=true;
-            } else{
+            } 
+            else{
                 $inDatabaseArray[$primaryKey]=false;
             } 
         }
