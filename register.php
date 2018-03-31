@@ -22,7 +22,7 @@
         $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker",'login');
         
 
-        $mySqlConnection->insertToDatabase2Str("Username","Password",$username,$password);
+        $mySqlConnection->insertToDatabase2Str("Username","Password",$username,$passwordHash);
             
         $mySqlConnection->createTable($username);
 

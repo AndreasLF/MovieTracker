@@ -37,7 +37,7 @@ $(document).ready(function () {
            
            var imdbAvg = data.averageImdbScore;
            
-            var htmlString = "<div class='col s2'>"+ imdbAvg +"/ 10</div>";
+            var htmlString = "<div class='col s2'>"+ Math.round(imdbAvg*100)/100 +"/ 10</div>";
 
            
            //This rounds the avg to the nearest half

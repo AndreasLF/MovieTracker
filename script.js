@@ -94,12 +94,11 @@ $(document).ready(function () {
     
     $('#searchform').submit(function () {
 
-        
         hideAllMovieCards();
+        $('#preloader').toggle();
 
 
         var searchString = $('#search').val();
-        console.log(searchString);
         
         //Only perform an ajax call if the search string is longer than 0
         if (searchString.length > 0) {
@@ -110,6 +109,7 @@ $(document).ready(function () {
 
             //Performs an ajax request
             $.getJSON(url,{title: searchString}, function (data) {
+                $('#preloader').toggle();
 
 
                 
