@@ -1,5 +1,7 @@
 <?php
 
+require "MySqlConnection.class.php";
+
 session_start();
 
 
