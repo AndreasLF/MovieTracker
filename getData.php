@@ -14,9 +14,6 @@ if(isset($_GET['title'])){
     //replaces spaces with +
     $title = preg_replace("/\s/","+",trim($_GET['title']));
 }
-else{
-    $title ="star+wars";
-}
 
 //The movie url is created
 $movieUrl = "https://www.omdbapi.com/?apikey=".$apikey."&type=".$type."&s=".$title;
