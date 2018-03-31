@@ -11,6 +11,7 @@ class MySqlConnection{
     public $isError;
     
     /** @var string $error */
+    //Contains an error message
     public $error;
     
     
@@ -310,6 +311,31 @@ class MySqlConnection{
     
         return $passwordHash;   
     }
+
+    
+    /*
+    * Creates a new movie table in the database
+    *
+    * param string $tabeName is the name of the table to create
+    */
+    public function createTable($tableName){
+        
+        //A query for a new database table is created
+        $query = "CREATE TABLE ".$tableName." (imdbId VARCHAR(10) PRIMARY KEY, json JSON NOT NULL)"; 
+
+        //The query is performed
+        $result = $this->mysqli->query($query); 
+
+         if(!($result)){
+                $this->error = "mysqli query failed: " . htmlspecialchars($this->mysqli->error);
+                $this->isError = true;
+                return;
+        }
+        
+        
+        
+    }
+
 }
 
 
