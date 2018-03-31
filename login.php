@@ -6,7 +6,6 @@
     //Connects to the database by including the code from connection.php
     require 'connection.php'; 
 
-
     $errorMsg = "";
 
     /*If the session variable 'username' is set, the username and password will be checked against the database*/
@@ -17,21 +16,57 @@
         $password = trim($_POST['password']);
         
         //Creates a prepared statement for the database
-        $stmt = mysqli_prepare($connection,"SELECT Password FROM `login` WHERE Username=?");
+        $stmt = $mysqli->prepare("SELECT Password FROM `login` WHERE Username=?");
             
-        //Binds parameters to the prepared statement. Every parameter is of type String
-        $stmt->bind_param("s",$username); 
+        
+        //If the prepared statement fails to be defined the script will exit with an error message
+        if(!($stmt)){
+            //Sets the error message
+            //htmlspecialchars converts the characters into html enitities
+            $errorMsg = "mysqli_prepare failed: " . htmlspecialchars($mysqli->error);
+        }
+        
 
-        //Executes the prepared statement. Returns a boolean - true on succes and false on failure.
+        //Binds parameters to the prepared statement. Every parameter is of type String
+        $result = $stmt->bind_param("s",$username); 
+        
+        if(!($result)){
+            //Exits with an error message
+            $errorMsg = "mysqli bind_param failed: " . htmlspecialchars($stmt->error);
+        }
+
+        //Executes the prepared statement. Returns a boolean - true upon succes and false upon failure.
         $result = $stmt->execute();
         
-        $stmt->bind_result($passwordHash);
+        //If execute was unsuccesful
+        if(!($result)){
+            //Exits with an error message
+            $errorMsg = "mysqli execute failed: " . htmlspecialchars($stmt->error);
+        }
+        
+        
+        $result = $stmt->bind_result($passwordHash);
+        
+        //If bind_result was unsuccesful
+        if(!($result)){
+            //Exits with an error message
+            $errorMsg = "mysqli bind_result failed: " . htmlspecialchars($stmt->error);
+        }
        
-        $stmt->fetch();      
+        
+        //fetches the result
+        $result = $stmt->fetch(); 
+        
+        //If fetch was unsuccesful
+        if(!($result)){
+            //Exits with an error message
+            $errorMsg = "mysqli fetch failed: " . htmlspecialchars($stmt->error);
+        }
     
-                    
+        
+        //Checks the passwords
         if(password_verify($password, $passwordHash)){  
-            /*Information about the session is stored*/
+            //Information about the session is stored
             $_SESSION['valid'] = true; 
             $_SESSION['timeout'] = time();
             $_SESSION['username'] = $username; 
