@@ -3,6 +3,14 @@
 
 $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker","andreas");
 
+$batch = array(
+0=>"tt2250912",
+1=>"12",
+2=>"tt1375666"
+);
+var_dump($mySqlConnection->inDatabaseBatch($batch));
+
+
 if(null===$mySqlConnection->inDatabase("tt2250912")){
     echo "null";
 }
@@ -64,7 +72,6 @@ class MySqlConnection{
     */
     public function inDatabase($primaryKey){
   
-        
             //Prepares a statement for the database
             $stmt = $this->mysqli->prepare("SELECT * FROM ".$this->table." WHERE imdbId = ?");
 
@@ -122,6 +129,30 @@ class MySqlConnection{
             else{
                 return false;
             }  
+    }
+    
+    
+    
+    /*
+    * Checks for multiple items if they exist in database
+    *
+    * param array $primaryKeys is an array of primary keys to check for
+    * return array containing primary keys and corresponding boolean
+    */
+    public function inDatabaseBatch($primaryKeys){
+        
+        $inDatabaseArray = array();
+        
+        foreach($primaryKeys as $key=>$primaryKey){
+            
+            if($this->inDatabase($primaryKey)){
+                $inDatabaseArray[$primaryKey]=true;
+            } else{
+                $inDatabaseArray[$primaryKey]=false;
+            } 
+        }
+         
+        return $inDatabaseArray;
     }
     
     
