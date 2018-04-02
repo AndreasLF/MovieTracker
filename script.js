@@ -176,7 +176,6 @@ $(document).ready(function () {
 function hideAllMovieCards() {
     $(".moviecard").each(function () {
         $(this).hide();
-
-
+        $(this).find("i").html("favorite_border");
     });
 }
