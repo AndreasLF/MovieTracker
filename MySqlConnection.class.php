@@ -1,10 +1,18 @@
 <?php
 
 
+/**
+* MySqlConnection
+* This class creates a mysqli object and contains methods to send queries to the database
+*
+* @author Andreas Fiehn
+*/
 class MySqlConnection{
     
-    
+    /** @var obj $mysqli */
     private $mysqli;
+    
+    /** @var string $table */
     private $table;
     
     /** @var boolean $isError */
@@ -329,7 +337,6 @@ class MySqlConnection{
          if(!($result)){
                 $this->error = "mysqli query failed: " . htmlspecialchars($this->mysqli->error);
                 $this->isError = true;
-                return;
         }
         
         

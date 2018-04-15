@@ -1,7 +1,12 @@
 <?php
-
+//Starts the session
 session_start();
 
+/*
+* This checks the session for a login status 
+*
+* @return array containing the validty (valid) of the session as a boolean and either a username or an errorMsg depending on valid
+*/
 function checkLoginSession(){
     if (isset($_SESSION['username']) && (time() - $_SESSION['timeout'] < 1200)){
 

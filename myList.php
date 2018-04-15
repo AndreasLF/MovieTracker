@@ -1,5 +1,8 @@
 <?php
 
+/*This creates a html page containing the list of movies from the database*/
+
+
 session_start();
 
 require 'MySqlConnection.class.php';

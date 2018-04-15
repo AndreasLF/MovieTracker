@@ -1,5 +1,8 @@
 <?php
         
+    /*This registers the user*/
+
+
     //Starts the session
     session_start(); 
 

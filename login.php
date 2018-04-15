@@ -1,5 +1,6 @@
 <?php
-        
+    /*This logs in the user*/
+
     //Starts the session
     session_start(); 
 

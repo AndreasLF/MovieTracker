@@ -1,15 +1,21 @@
 <?php
+/*This script searches for movies and return the results as a JSON*/
 
+//require the checkLoginSession function
 require "checkLoginSession.function.php";
-require "MySqlConnection.class.php";
+//Requires the MySqlConnection class
+require 'MySqlConnection.class.php';
 
+//Apikey for omdb is defined
 $apikey = "b044049a";
+//Only search for content of the type movie
 $type = "movie";
+//Title is defined but set to an empty string
 $title = "";
 
 //Checks if a search string has been specified
 if(isset($_GET['title'])){
-    //replaces spaces with +
+    //replaces spaces with +'s to prevent errors when accessing the API
     $title = preg_replace("/\s/","+",trim($_GET['title']));
 }
 
@@ -25,13 +31,13 @@ $movieArray = json_decode($json,true);
 //If the response from OMDB contains movies it will be modified to contain a boolean which tells whether or not each movie is in the database 
 if($movieArray['Response'] == "True"){
     
+    //Validates the session login data
     $login = checkLoginSession();
     
+    //If the user is logged in the following code will check if the movie is in the database
     if($login['valid']){
         $mySqlConnection = new MySqlConnection("localhost","MovieTrackerDB","password","movietracker",$login['username']);
-        
-        //ERROR MSG MISSING!
-        
+                
         //Array to contain movie ids
         $movieIdArray = array();
         
@@ -41,8 +47,8 @@ if($movieArray['Response'] == "True"){
             $movieIdArray[$key] = $imdbId;
         }
         
+        //Checks if the list of movies is in the database
         $isInListArray = $mySqlConnection->inDatabaseBatch($movieIdArray); 
-        //ERROR MSG MISSING
         
         //Adds the isInListArray to the movieArray
         $movieArray['isInList'] = $isInListArray;
@@ -51,6 +57,7 @@ if($movieArray['Response'] == "True"){
     }    
 }
 
+//Echoes the json
 echo $json;
 
 
