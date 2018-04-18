@@ -25,22 +25,15 @@ else{
     //gets an array of the json column in the database
     $movies = $mySqlConnection->getColumnAsArray("json");
     
-    //Creates an array to contaun movies
-    $moviesList = array();
-    
-    //For each movie in the movies array
-    foreach($movies as $movie){
-        //The movie gets json_decoded and is added to the moviesList
-        array_push($moviesList,json_decode($movie));
-    }
-        
-    
-    
+       
     $totalMinutes = 0;
     $imdbRatingSum = 0;
     
-    //For each movie in the movies list
-    foreach($moviesList as $movie){
+    //For each movie in the movies array
+    foreach($movies as $movie){
+        //The movie gets json_decoded. JSON decode converts the JSON string into a php variable
+        $movie = json_decode($movie);
+        
         //Uses regular expression to get the runtime and not the following "min."
         preg_match('/(\d+)\s/', $movie->Runtime, $matches);
         
@@ -49,7 +42,9 @@ else{
         
         //The imdb rating will be added
         $imdbRatingSum = $imdbRatingSum + (float)$movie->imdbRating;
+        
     }
+    
          
     //totalMinutes is converted to hours by division with 60
     $totalHours = $totalMinutes/60;
@@ -57,7 +52,7 @@ else{
     $totalDays = $totalMinutes/(60*24);
     
     //The average idmb score is calculated
-    $averageImdbScore = $imdbRatingSum/ count($moviesList);
+    $averageImdbScore = $imdbRatingSum/ count($movies);
     
     //The stats are added to an array
     $statisticsArray = array(

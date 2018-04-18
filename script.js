@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    
-    
+        
     $('#verifyPasswordInput').keyup(function(){
         if($(this).val()==$('#passwordInput').val()){
             $('#registerSubmitButton').removeClass("disabled"); 
